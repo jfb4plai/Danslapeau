@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dans la peau · PLAI — Vivre les aménagements de l'intérieur</title>
+<style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: #faf9f7; font-family: 'DM Sans', Georgia, sans-serif; color: #1a1814; min-height: 100vh; }
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --green-bg: #eaf3de; --green-mid: #639922; --green-text: #3b6d11;
+  --blue-bg: #e6f1fb;  --blue-mid: #378add;  --blue-text: #185fa5;
+  --amber-bg: #faeeda; --amber-mid: #ef9f27; --amber-text: #854f0b;
+  --red-bg: #fcebeb;   --red-mid: #e24b4a;   --red-text: #a32d2d;
+  --purple-bg: #eeedfe;--purple-mid: #7f77dd;--purple-text: #534ab7;
+  --border: #e8e4dd;
+  --muted: #9a958c;
+  --body-text: #5a564f;
+  --max-w: 720px;
+}
+
+/* ── Nav ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,249,247,0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; background: none; border: none; cursor: pointer; padding: 0; text-decoration: none; }
+.nav-logo-text { font-family: Georgia, serif; font-style: italic; font-size: 16px; color: #1a1814; }
+.nav-links { display: flex; gap: 3px; flex-wrap: wrap; }
+.nav-btn {
+  font-size: 12px; font-weight: 500; padding: 5px 9px; border-radius: 6px;
+  background: transparent; color: var(--body-text); border: none; cursor: pointer;
+  transition: background 0.15s; font-family: inherit;
+}
+.nav-btn:hover { background: #f4f2ee; }
+.nav-btn.active { background: #1a1814; color: #faf9f7; }
+button:focus-visible { outline: 2px solid var(--blue-mid); outline-offset: 2px; }
+
+/* ── Banner ── */
+.banner {
+  background: #e1f5ee; border-bottom: 1px solid #1d9e75;
+  padding: 0.65rem 2rem; text-align: center;
+  font-size: 13px; color: #0f6e56;
+}
+.banner a { color: #0f6e56; font-weight: 500; }
+
+/* ── Layout ── */
+.page { display: none; }
+.page.visible { display: block; }
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 1.5rem; }
+
+/* ── Hero ── */
+.hero { text-align: center; padding: 4rem 0 3rem; }
+.hero-logo {
+  display: block; width: 100%; max-width: 300px; height: auto;
+  margin: 0 auto 1.75rem; mix-blend-mode: multiply;
+}
+.nav-logo img, .footer img { mix-blend-mode: multiply; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--muted); border: 1px solid #d4cfc6; padding: 4px 14px; border-radius: 20px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: Georgia, serif; font-size: clamp(30px,5vw,48px); line-height: 1.15;
+  letter-spacing: -0.5px; margin-bottom: 0.75rem; font-weight: normal;
+}
+.hero h1 em { color: var(--body-text); }
+.hero-sub {
+  font-size: 17px; color: var(--body-text); max-width: 500px; margin: 0 auto 2.5rem;
+  font-family: Georgia, serif; font-style: italic;
+}
+.stats { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+.stat-n { font-family: Georgia, serif; font-size: 30px; color: #1a1814; }
+.stat-l { font-size: 12px; color: var(--muted); }
+
+.divider { height: 1px; background: var(--border); margin: 2rem 0; }
+
+.section-label {
+  font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.7px;
+  color: var(--muted); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::after { content:''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── Level cards ── */
+.level-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+.level-card {
+  display: flex; align-items: stretch; background: #fff;
+  border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; text-align: left;
+  padding: 0; width: 100%; font-family: inherit;
+}
+.level-card:hover { border-color: #d4cfc6; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.level-stripe { width: 4px; flex-shrink: 0; }
+.level-inner { display: flex; align-items: center; gap: 14px; padding: 1rem 1.1rem; flex: 1; }
+.level-icon {
+  width: 40px; height: 40px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;
+}
+.level-info { flex: 1; }
+.level-title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+.level-title { font-size: 16px; font-weight: 500; }
+.level-badge {
+  font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+.level-sub { font-size: 14px; color: var(--body-text); line-height: 1.5; }
+.level-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.level-arrow { font-size: 18px; color: #d4cfc6; margin-right: 4px; align-self: center; }
+
+/* ── Guide pages ── */
+.guide-wrap { padding-top: 2rem; padding-bottom: 4rem; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted);
+  background: none; border: none; cursor: pointer; padding: 5px 0; margin-bottom: 1.5rem;
+  font-family: inherit;
+}
+.back-btn:hover { color: #1a1814; }
+.guide-tag {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.6px; padding: 3px 12px; border-radius: 20px;
+  margin-bottom: 12px;
+}
+.guide-h1 {
+  font-family: Georgia, serif; font-weight: normal;
+  font-size: clamp(24px,4vw,32px); line-height: 1.2; margin-bottom: 0.5rem;
+}
+.guide-sub {
+  font-size: 16px; color: var(--body-text); font-family: Georgia, serif;
+  font-style: italic; margin-bottom: 0.75rem;
+}
+.guide-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.guide-meta span { font-size: 12px; color: var(--muted); }
+
+.section-h {
+  font-size: 18px; font-weight: 500; margin-bottom: 0.9rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); color: #1a1814;
+}
+.section-block { margin-bottom: 2rem; }
+.prose { font-size: 16px; color: var(--body-text); line-height: 1.75; }
+.prose p { margin-bottom: 0.85rem; }
+
+/* ── Boxes ── */
+.box, .warn-box, .ok-box, .danger-box, .purple-box {
+  border-radius: 0 8px 8px 0; padding: 0.85rem 1rem; margin: 1.25rem 0;
+}
+.box-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.box-content { font-size: 15px; line-height: 1.6; }
+.box       { background: var(--blue-bg);   border-left: 3px solid var(--blue-mid); }
+.box .box-label   { color: #0c447c; }
+.box .box-content { color: var(--blue-text); }
+.warn-box  { background: var(--amber-bg);  border-left: 3px solid var(--amber-mid); }
+.warn-box .box-label   { color: #633806; }
+.warn-box .box-content { color: var(--amber-text); }
+.ok-box    { background: var(--green-bg);  border-left: 3px solid var(--green-mid); }
+.ok-box .box-label   { color: #27500a; }
+.ok-box .box-content { color: var(--green-text); }
+.danger-box{ background: var(--red-bg);    border-left: 3px solid var(--red-mid); }
+.danger-box .box-label   { color: #501313; }
+.danger-box .box-content { color: var(--red-text); }
+.purple-box{ background: var(--purple-bg); border-left: 3px solid var(--purple-mid); }
+.purple-box .box-label   { color: #3c3489; }
+.purple-box .box-content { color: var(--purple-text); }
+
+/* ── Buttons ── */
+.btn-next {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 500; padding: 9px 18px; border-radius: 6px;
+  border: none; background: #1a1814; color: #faf9f7;
+  cursor: pointer; font-family: inherit;
+}
+.btn-next:hover { background: #33302a; }
+.btn-prev {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500; padding: 8px 15px; border-radius: 6px;
+  border: 1px solid #d4cfc6; background: transparent; color: var(--body-text);
+  cursor: pointer; font-family: inherit; transition: background 0.15s;
+}
+.btn-prev:hover { background: #f4f2ee; }
+
+/* ── Simulation stage ── */
+.sim-stage { min-height: 320px; }
+.sim-timer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+.sim-timer-n { font-family: Georgia, serif; font-size: 26px; min-width: 46px; text-align: center; }
+.sim-timer-bar { flex: 1; height: 6px; background: #eee9e1; border-radius: 3px; overflow: hidden; }
+.sim-timer-fill { height: 100%; background: var(--amber-mid); border-radius: 3px; transition: width 1s linear; }
+
+.read-hostile {
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.1rem 1.3rem; margin: 1rem 0;
+  font-family: Georgia, 'Times New Roman', serif; font-size: 13px; font-style: italic;
+  text-align: justify; line-height: 1.25; letter-spacing: -0.2px; color: #2a2620;
+}
+.read-au {
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.4rem 1.5rem; margin: 1rem 0;
+  font-family: Arial, Helvetica, sans-serif; font-size: 18px; line-height: 1.8;
+  text-align: left; color: #1a1814;
+}
+.read-au p { margin-bottom: 0.7rem; }
+.steps-au { font-family: Arial, Helvetica, sans-serif; font-size: 17px; line-height: 1.8; }
+.steps-au li { margin-bottom: 0.4rem; margin-left: 1.4rem; }
+
+.qcm-q { font-size: 17px; font-weight: 500; margin: 1.2rem 0 0.8rem; }
+.qcm-opts { display: flex; flex-direction: column; gap: 8px; }
+.qcm-opt {
+  text-align: left; background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.85rem 1rem; font-size: 15px; cursor: pointer; font-family: inherit;
+  color: #1a1814; transition: border-color .15s;
+}
+.qcm-opt:hover { border-color: #d4cfc6; }
+.qcm-opt.good { background: var(--green-bg); border-color: var(--green-mid); }
+.qcm-opt.bad  { background: var(--red-bg);  border-color: var(--red-mid); }
+
+.score-duel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 1.25rem 0; }
+.score-cell { border-radius: 10px; padding: 1rem; text-align: center; }
+.score-cell-sans { background: var(--red-bg); border: 1px solid #f09595; }
+.score-cell-avec { background: var(--green-bg); border: 1px solid #c0dd97; }
+.score-cell .lbl { font-size: 10px; text-transform: uppercase; font-weight: 500; letter-spacing: .5px; margin-bottom: 4px; }
+.score-cell-sans .lbl { color: var(--red-text); }
+.score-cell-avec .lbl { color: var(--green-text); }
+.score-cell .val { font-family: Georgia, serif; font-size: 32px; }
+
+.bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.bar-lbl { width: 110px; font-size: 13px; color: var(--body-text); text-align: right; flex-shrink: 0; }
+.bar-track { flex: 1; height: 26px; background: #f4f2ee; border-radius: 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; color: #fff; font-size: 12px; font-weight: 500; min-width: 34px; transition: width .8s ease; }
+
+/* ── Distractors ── */
+.distract-zone { position: relative; overflow: hidden; }
+.toast-notif {
+  position: fixed; right: 14px; background: #fff; border: 1px solid var(--border);
+  border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.14);
+  padding: 10px 14px; font-size: 13px; z-index: 300; max-width: 250px;
+  animation: slideIn .4s ease;
+}
+@keyframes slideIn { from { transform: translateX(120%);} to { transform: translateX(0);} }
+@keyframes shakeIt { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+.shaking { animation: shakeIt .5s ease; }
+.fly { position: fixed; font-size: 22px; z-index: 299; transition: top 1.4s ease, left 1.4s ease; pointer-events: none; }
+.blink-btn {
+  display: inline-block; margin-top: 10px; padding: 6px 14px; border-radius: 20px;
+  background: var(--red-mid); color: #fff; border: none; font-size: 13px; font-weight: 500;
+  cursor: pointer; animation: pulseB 0.9s infinite alternate; font-family: inherit;
+}
+@keyframes pulseB { from { transform: scale(1); opacity:.85 } to { transform: scale(1.12); opacity:1 } }
+
+.num-input {
+  font-size: 22px; font-family: Georgia, serif; padding: 8px 14px; width: 130px;
+  border: 1px solid #d4cfc6; border-radius: 8px; background: #fff;
+}
+
+/* ── Myth cards ── */
+.myth-quote {
+  background: #fff; border: 1px solid var(--border); border-left: 4px solid var(--red-mid);
+  border-radius: 0 10px 10px 0; padding: 1.1rem 1.3rem; margin: 1.2rem 0 0.4rem;
+  font-family: Georgia, serif; font-size: 18px; line-height: 1.5; color: #2a2620;
+}
+.myth-who { font-size: 12px; color: var(--muted); font-style: italic; margin-bottom: 1.2rem; }
+.myth-progress { font-size: 12px; color: var(--muted); margin-bottom: .5rem; }
+.reply-opt {
+  text-align: left; background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.9rem 1.1rem; font-size: 15px; line-height: 1.55; cursor: pointer; font-family: inherit;
+  color: #1a1814; transition: border-color .15s; width: 100%;
+}
+.reply-opt:hover { border-color: var(--purple-mid); }
+.pts-badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: 10px; margin-bottom: 6px; }
+
+/* ── Tri game ── */
+.tri-item-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 10px;
+  padding: 1.3rem 1.4rem; margin: 1.2rem 0; font-size: 17px; line-height: 1.55; text-align: center;
+}
+.tri-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1rem; }
+.tri-btn {
+  padding: 1rem; border-radius: 10px; font-size: 16px; font-weight: 500; cursor: pointer; font-family: inherit;
+  border: 2px solid transparent;
+}
+.tri-btn-au { background: var(--blue-bg); color: var(--blue-text); border-color: #b9d9f5; }
+.tri-btn-au:hover { border-color: var(--blue-mid); }
+.tri-btn-ar { background: var(--purple-bg); color: var(--purple-text); border-color: #d3cff5; }
+.tri-btn-ar:hover { border-color: var(--purple-mid); }
+.tri-btn .sub { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: .8; }
+
+/* ── Engagement card ── */
+.field-label { font-size: 14px; font-weight: 500; margin: 1.2rem 0 0.5rem; display: block; }
+.radio-row { display: flex; align-items: flex-start; gap: 9px; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: .8rem 1rem; margin-bottom: 8px; cursor: pointer; }
+.radio-row:hover { border-color: #d4cfc6; }
+.radio-row input { margin-top: 4px; accent-color: #0a9370; }
+.radio-row .rt { font-size: 15px; line-height: 1.5; }
+.radio-row .rs { font-size: 12px; color: var(--muted); }
+textarea.ctx, input.ctx {
+  width: 100%; border: 1px solid #d4cfc6; border-radius: 10px; padding: .8rem 1rem;
+  font-family: inherit; font-size: 15px; background: #fff; resize: vertical;
+}
+.ctx-hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.engage-card {
+  background: linear-gradient(135deg, #e1f5ee 0%, var(--blue-bg) 100%);
+  border: 2px solid #0a9370; border-radius: 14px; padding: 1.8rem; margin: 1.5rem 0;
+}
+.engage-card .ec-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; color: #0f6e56; margin-bottom: .6rem; }
+.engage-card .ec-title { font-family: Georgia, serif; font-size: 22px; margin-bottom: 1rem; color: #1a1814; line-height: 1.3; }
+.engage-card .ec-body { font-size: 15px; color: #33403a; line-height: 1.7; margin-bottom: 1rem; }
+.engage-card .ec-ctx { background: rgba(255,255,255,.75); border-radius: 8px; padding: .9rem 1.1rem; font-family: Georgia, serif; font-style: italic; font-size: 15px; color: #2a2620; line-height: 1.6; margin-bottom: 1rem; }
+.engage-card .ec-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12px; color: #0f6e56; border-top: 1px dashed #0a9370; padding-top: .8rem; }
+
+/* ── Références ── */
+.ref-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: .9rem 1.1rem; margin-bottom: 8px; }
+.ref-title { font-size: 14px; font-weight: 500; line-height: 1.45; }
+.ref-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.ref-id { font-family: monospace; font-size: 11px; background: #f4f2ee; padding: 1px 7px; border-radius: 4px; color: var(--body-text); }
+
+/* ── Footer ── */
+.footer { text-align: center; padding: 1rem 0 3rem; font-size: 13px; color: var(--muted); font-family: Georgia, serif; font-style: italic; }
+.footer img { height: 40px; width: auto; display: block; margin: 0 auto 8px; }
+
+@media print {
+  nav, .banner, .footer, .no-print { display: none !important; }
+  body { background: #fff; }
+  .engage-card { border-width: 2px; }
+}
+@media (max-width: 560px) {
+  .score-duel, .tri-btns { grid-template-columns: 1fr; }
+  .bar-lbl { width: 80px; font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <button class="nav-logo" onclick="showPage('home')">
+    <img src="/plai-logo.jpg" alt="PLAI" style="height:36px;object-fit:contain;" onerror="this.style.display='none'">
+    <span class="nav-logo-text">Dans la peau · PLAI</span>
+  </button>
+  <div class="nav-links">
+    <button class="nav-btn active" id="nav-home" onclick="showPage('home')">Accueil</button>
+    <button class="nav-btn" id="nav-sim" onclick="showPage('sim')">Vivez-le</button>
+    <button class="nav-btn" id="nav-myths" onclick="showPage('myths')">Objections</button>
+    <button class="nav-btn" id="nav-tri" onclick="showPage('tri')">AU ou AR ?</button>
+    <button class="nav-btn" id="nav-pas" onclick="showPage('pas')">Premier pas</button>
+    <button class="nav-btn" id="nav-biblio" onclick="showPage('biblio')">Sources</button>
+  </div>
+</nav>
+
+<!-- BANNER -->
+<div class="banner">
+  Pour toute question ou demande d'accompagnement — à distance ou en présentiel — n'hésite pas à contacter le <strong>référent numérique du PLAI</strong> : <a href="mailto:jeanfrancois.beguin@ens.ecl.be">jeanfrancois.beguin@ens.ecl.be</a>
+</div>
+
+<!-- ══════════════════════ HOME ══ -->
+<div id="page-home" class="page visible">
+  <div class="container">
+    <div class="hero">
+      <img src="/plai-logo.jpg" alt="PLAI — Pôle Liégeois d'Accompagnement vers une École Inclusive" class="hero-logo" onerror="this.style.display='none'">
+      <div class="hero-badge">🎓 Guide enseignants · Écoles coopérantes du PLAI</div>
+      <h1>Et si, pendant 10 minutes,<br><em>vous étiez l'élève ?</em></h1>
+      <p class="hero-sub">Une expérience interactive sur les Aménagements Universels et Raisonnables — à vivre, pas à lire.</p>
+      <div class="stats">
+        <div><div class="stat-n">3</div><div class="stat-l">épreuves à vivre</div></div>
+        <div><div class="stat-n">5</div><div class="stat-l">objections à démonter</div></div>
+        <div><div class="stat-n">12</div><div class="stat-l">références RISS</div></div>
+        <div><div class="stat-n">1</div><div class="stat-l">premier pas concret</div></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-label">Le parcours</div>
+
+    <div class="level-list">
+      <button class="level-card" onclick="showPage('sim')">
+        <div class="level-stripe" style="background:var(--red-mid)"></div>
+        <div class="level-inner">
+          <div class="level-icon" style="background:var(--red-bg)">🎢</div>
+          <div class="level-info">
+            <div class="level-title-row">
+              <span class="level-title">Vivez-le</span>
+              <span class="level-badge" style="background:var(--red-bg);color:var(--red-text)">Expérience</span>
+            </div>
+            <div class="level-sub">Trois épreuves chronométrées : lire avec des lettres qui bougent, décoder une consigne-mur, calculer sous les distractions. Puis rejouez avec aménagements — et comparez vos propres scores.</div>
+            <div class="level-meta">~8 min · Le cœur de l'expérience, commencez ici</div>
+          </div>
+          <div class="level-arrow">→</div>
+        </div>
+      </button>
+
+      <button class="level-card" onclick="showPage('myths')">
+        <div class="level-stripe" style="background:var(--amber-mid)"></div>
+        <div class="level-inner">
+          <div class="level-icon" style="background:var(--amber-bg)">☕</div>
+          <div class="level-info">
+            <div class="level-title-row">
+              <span class="level-title">La salle des profs</span>
+              <span class="level-badge" style="background:var(--amber-bg);color:var(--amber-text)">Jeu de répartie</span>
+            </div>
+            <div class="level-sub">« C'est de la triche », « ça nivelle par le bas », « pas le temps »… Cinq objections entendues mille fois. Choisissez votre réplique, la recherche arbitre.</div>
+            <div class="level-meta">~5 min · Score de répartie inclusive</div>
+          </div>
+          <div class="level-arrow">→</div>
+        </div>
+      </button>
+
+      <button class="level-card" onclick="showPage('tri')">
+        <div class="level-stripe" style="background:var(--blue-mid)"></div>
+        <div class="level-inner">
+          <div class="level-icon" style="background:var(--blue-bg)">⚖️</div>
+          <div class="level-info">
+            <div class="level-title-row">
+              <span class="level-title">AU ou AR ?</span>
+              <span class="level-badge" style="background:var(--blue-bg);color:var(--blue-text)">Le tri</span>
+            </div>
+            <div class="level-sub">Universel (toute la classe, d'office) ou Raisonnable (individuel, ciblé) ? Quinze situations réelles à classer pour ne plus jamais confondre.</div>
+            <div class="level-meta">~6 min · 15 situations</div>
+          </div>
+          <div class="level-arrow">→</div>
+        </div>
+      </button>
+
+      <button class="level-card" onclick="showPage('pas')">
+        <div class="level-stripe" style="background:#0a9370"></div>
+        <div class="level-inner">
+          <div class="level-icon" style="background:#e1f5ee">🌱</div>
+          <div class="level-info">
+            <div class="level-title-row">
+              <span class="level-title">Mon premier pas</span>
+              <span class="level-badge" style="background:#e1f5ee;color:#0f6e56">Engagement</span>
+            </div>
+            <div class="level-sub">Choisissez UN aménagement universel à tester cette semaine, dans VOTRE classe, avec VOS mots. Repartez avec votre carte d'engagement imprimable.</div>
+            <div class="level-meta">~3 min · Votre contexte est obligatoire — c'est le principe</div>
+          </div>
+          <div class="level-arrow">→</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="box">
+      <div class="box-label">Cette page pratique ce qu'elle prêche</div>
+      <div class="box-content">Vous lisez en ce moment une page qui applique les AU qu'elle défend : pas de mur de texte, une idée par bloc, contraste suffisant, interligne aéré, consignes découpées. Si la lecture vous a semblé fluide… c'est exactement l'argument.</div>
+    </div>
+
+    <div class="footer">
+      <img src="/plai-logo.jpg" alt="PLAI" onerror="this.style.display='none'">
+      Pôle Liégeois d'Accompagnement vers une École Inclusive — toutes les références scientifiques sont issues du corpus RISS.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════ SIM ══ -->
+<div id="page-sim" class="page">
+  <div class="container guide-wrap">
+    <button class="back-btn" onclick="showPage('home')">← Retour à l'accueil</button>
+    <span class="guide-tag" style="background:var(--red-bg);color:var(--red-text)">🎢 Expérience</span>
+    <h2 class="guide-h1">Vivez-le</h2>
+    <p class="guide-sub">Trois obstacles, vécus de l'intérieur. Puis les mêmes tâches, aménagées.</p>
+    <div id="sim-stage" class="sim-stage"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ MYTHS ══ -->
+<div id="page-myths" class="page">
+  <div class="container guide-wrap">
+    <button class="back-btn" onclick="showPage('home')">← Retour à l'accueil</button>
+    <span class="guide-tag" style="background:var(--amber-bg);color:var(--amber-text)">☕ Salle des profs</span>
+    <h2 class="guide-h1">Le jeu des objections</h2>
+    <p class="guide-sub">Lundi matin, machine à café. Une phrase fuse. Que répondez-vous ?</p>
+    <div id="myth-stage"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ TRI ══ -->
+<div id="page-tri" class="page">
+  <div class="container guide-wrap">
+    <button class="back-btn" onclick="showPage('home')">← Retour à l'accueil</button>
+    <span class="guide-tag" style="background:var(--blue-bg);color:var(--blue-text)">⚖️ Le tri</span>
+    <h2 class="guide-h1">Universel ou Raisonnable ?</h2>
+    <p class="guide-sub">Deux logiques complémentaires — encore faut-il les distinguer.</p>
+
+    <div class="score-duel no-print">
+      <div class="score-cell" style="background:var(--blue-bg);border:1px solid #b9d9f5;">
+        <div class="lbl" style="color:var(--blue-text)">Aménagement Universel</div>
+        <div style="font-size:14px;color:var(--blue-text);line-height:1.55;">Pour <strong>toute la classe</strong>, d'office, sans diagnostic. On conçoit accessible dès le départ (logique CUA).</div>
+      </div>
+      <div class="score-cell" style="background:var(--purple-bg);border:1px solid #d3cff5;">
+        <div class="lbl" style="color:var(--purple-text)">Aménagement Raisonnable</div>
+        <div style="font-size:14px;color:var(--purple-text);line-height:1.55;">Pour <strong>un élève précis</strong>, en réponse à un besoin spécifique attesté. Un droit, pas une faveur (décret FWB du 7/12/2017).</div>
+      </div>
+    </div>
+
+    <div id="tri-stage"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ PAS ══ -->
+<div id="page-pas" class="page">
+  <div class="container guide-wrap">
+    <button class="back-btn no-print" onclick="showPage('home')">← Retour à l'accueil</button>
+    <span class="guide-tag no-print" style="background:#e1f5ee;color:#0f6e56">🌱 Engagement</span>
+    <h2 class="guide-h1 no-print">Mon premier pas</h2>
+    <p class="guide-sub no-print">Un seul aménagement. Une seule semaine. Votre classe. C'est ainsi que ça commence.</p>
+
+    <div id="pas-form" class="no-print">
+      <span class="field-label">1 · Je choisis UN aménagement universel à tester dès cette semaine :</span>
+      <label class="radio-row"><input type="radio" name="au-choice" value="0">
+        <span><span class="rt">Toutes mes feuilles passent en <strong>Arial 12, interligne 1,5</strong>.</span><br><span class="rs">Lisibilité pour tous — espacement et agrandissement facilitent la lecture (corpus RISS : Fauquembergue 2016 ; Lachgar 2020).</span></span></label>
+      <label class="radio-row"><input type="radio" name="au-choice" value="1">
+        <span><span class="rt">Mes consignes : <strong>une action par ligne</strong>, verbe en premier.</span><br><span class="rs">La consigne est le premier obstacle évitable (corpus RISS : Anné 2021).</span></span></label>
+      <label class="radio-row"><input type="radio" name="au-choice" value="2">
+        <span><span class="rt">Chaque consigne donnée <strong>à l'oral ET à l'écrit</strong>.</span><br><span class="rs">Double modalité = principe central de la CUA (corpus RISS : Rusconi 2025).</span></span></label>
+      <label class="radio-row"><input type="radio" name="au-choice" value="3">
+        <span><span class="rt">Le <strong>plan du cours affiché</strong> au tableau, coché au fur et à mesure.</span><br><span class="rs">La structuration du temps soutient l'attention, TDAH inclus (corpus RISS : Bourgeois 2024).</span></span></label>
+      <label class="radio-row"><input type="radio" name="au-choice" value="4">
+        <span><span class="rt">Un <strong>exemple résolu</strong> montré avant chaque série d'exercices.</span><br><span class="rs">Réduit la charge cognitive inutile et libère la mémoire de travail (corpus RISS : Puma 2016).</span></span></label>
+
+      <span class="field-label">2 · Ma classe, mon contexte, mes mots — la partie qu'aucune IA ne peut écrire à votre place :</span>
+      <textarea id="ctx-input" class="ctx" rows="3" placeholder="Ex. : Ma 4e techniques sociales du jeudi après-midi, 22 élèves dont 3 suivis logopédiques. Je commence par les feuilles d'exercices de sciences humaines, c'est là que ça coince le plus."></textarea>
+      <div class="ctx-hint">Minimum 20 caractères. C'est le principe 80/20 : l'outil propose, vous singularisez.</div>
+
+      <span class="field-label">3 · Mon prénom ou mes initiales (facultatif) :</span>
+      <input id="name-input" class="ctx" type="text" placeholder="Ex. : J-F, ou Mme D." style="max-width:280px;">
+
+      <div style="margin-top:1.5rem;">
+        <button class="btn-next" onclick="makeCard()">Générer ma carte d'engagement →</button>
+      </div>
+      <div id="pas-error" style="color:var(--red-text);font-size:14px;margin-top:8px;"></div>
+    </div>
+
+    <div id="pas-card"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ BIBLIO ══ -->
+<div id="page-biblio" class="page">
+  <div class="container guide-wrap">
+    <button class="back-btn" onclick="showPage('home')">← Retour à l'accueil</button>
+    <span class="guide-tag" style="background:var(--purple-bg);color:var(--purple-text)">📚 Sources</span>
+    <h2 class="guide-h1">Références</h2>
+    <p class="guide-sub">Toutes vérifiées dans le corpus RISS (522 627 articles scientifiques francophones) avant publication.</p>
+
+    <div class="section-block">
+      <div class="section-h">Corpus RISS</div>
+      <div class="ref-item"><div class="ref-title">Anné, M. (2021). <em>La conception universelle de l'apprentissage comme pédagogie inclusive dans le cadre de la lecture de consignes.</em></div><div class="ref-meta"><span class="ref-id">dumas-03361167</span></div></div>
+      <div class="ref-item"><div class="ref-title">Bourgeois, C. (2024). <em>École inclusive et TDAH.</em></div><div class="ref-meta"><span class="ref-id">dumas-04903104</span> · Les aménagements spécifiques ont un effet significatif sur l'attention des élèves TDAH en classe.</div></div>
+      <div class="ref-item"><div class="ref-title">Fauquembergue, P. (2016). <em>Quelles adaptations pédagogiques pour les élèves dyslexiques ?</em></div><div class="ref-meta"><span class="ref-id">dumas-01491336</span> · Agrandissement de la police, interligne 1,5.</div></div>
+      <div class="ref-item"><div class="ref-title">Feuilladieu, S., Gombert, A. &amp; Harma, K. (2009). <em>Scolarisation d'élèves en situation de handicap : perception de la différenciation chez les autres élèves.</em></div><div class="ref-meta"><span class="ref-id">hal-01779402</span></div></div>
+      <div class="ref-item"><div class="ref-title">Giaoui, G. (2022). <em>L'inclusion des élèves en situation de handicap en cours d'histoire-géographie-EMC au collège.</em></div><div class="ref-meta"><span class="ref-id">dumas-03687630</span> · L'inclusion relève de l'équité plus que de l'égalité de traitement.</div></div>
+      <div class="ref-item"><div class="ref-title">Gourgeon, A. (2019). <em>La différenciation pédagogique : accompagner un élève ayant des troubles d'apprentissage.</em></div><div class="ref-meta"><span class="ref-id">dumas-02269392</span></div></div>
+      <div class="ref-item"><div class="ref-title">Lachgar, J. (2020). <em>Dyslexie : la place de l'orthoptie dans la prise en charge.</em></div><div class="ref-meta"><span class="ref-id">dumas-03008164</span> · L'espacement des lettres et des mots rend la lecture plus pratique et réduit l'effet de désordre.</div></div>
+      <div class="ref-item"><div class="ref-title">Lafontaine, D. &amp; Toczek-Capelle, M.-C. (2023). <em>L'évaluation en classe au service de l'apprentissage des élèves.</em></div><div class="ref-meta"><span class="ref-id">hal-04646875</span> · Modèles de justice et conceptions de l'égalité en évaluation.</div></div>
+      <div class="ref-item"><div class="ref-title">Latini, N., Lampugnani, G., Rusconi, L. &amp; Pasqualotto, A. (2025). <em>Inclusion et Troubles spécifiques des Apprentissages.</em></div><div class="ref-meta"><span class="ref-id">W4413909670</span> · Aménagements raisonnables planifiés, objectifs co-construits, suivi documenté.</div></div>
+      <div class="ref-item"><div class="ref-title">Perrin-Glorieux, A.-L., Jury, M. &amp; Desombre, C. (2024). <em>Attitudes envers l'éducation inclusive des enseignants et des parents en France.</em></div><div class="ref-meta"><span class="ref-id">hal-04795020</span> · Une pédagogie accessible favorise les apprentissages de tous, au bénéfice de tous.</div></div>
+      <div class="ref-item"><div class="ref-title">Puma, S. (2016). <em>Optimisation des apprentissages : modèles et mesures de la charge cognitive.</em></div><div class="ref-meta"><span class="ref-id">tel-01735371</span> · Les ressources cognitives de l'apprenant sont limitées ; la charge inutile se réduit.</div></div>
+      <div class="ref-item"><div class="ref-title">Rusconi, L. (2025). <em>La conception universelle de l'apprentissage (CUA) dans la formation des enseignants.</em></div><div class="ref-meta"><span class="ref-id">W4414205903</span> · La CUA répond de manière proactive aux défis de l'inclusion.</div></div>
+      <div class="ref-item"><div class="ref-title">Vienet, A.-S. (2023). <em>Les aménagements pour pallier les difficultés en lecture des élèves dyslexiques.</em></div><div class="ref-meta"><span class="ref-id">dumas-04350539</span></div></div>
+    </div>
+
+    <div class="warn-box">
+      <div class="box-label">Cadre légal — hors corpus RISS</div>
+      <div class="box-content">Le décret FWB du 7 décembre 2017 rend les aménagements raisonnables obligatoires pour les élèves à besoins spécifiques attestés. C'est un texte légal, pas un article scientifique : il est cité ici comme cadre réglementaire (réel, hors corpus RISS).</div>
+    </div>
+
+    <div class="purple-box">
+      <div class="box-label">Honnêteté scientifique</div>
+      <div class="box-content">Les simulations de ce site ne reproduisent pas fidèlement le vécu d'un élève dyslexique ou TDAH — aucune simulation ne le peut. Elles donnent un aperçu de l'<em>effort supplémentaire</em> exigé quand le support n'est pas adapté. C'est cet effort, documenté par la recherche, que les aménagements réduisent.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ───────────────────────── Navigation ───────────────────────── */
+function showPage(id) {
+  simCleanup();
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('visible'));
+  document.getElementById('page-' + id).classList.add('visible');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  var nb = document.getElementById('nav-' + id);
+  if (nb) nb.classList.add('active');
+  window.scrollTo(0, 0);
+  if (id === 'sim' && !sim.started) simGo('intro');
+  if (id === 'myths' && mythState.i === -1) mythIntro();
+  if (id === 'tri' && triState.i === -1) triIntro();
+}
+var $ = function(id) { return document.getElementById(id); };
+
+/* ───────────────────────── Simulation engine ───────────────────────── */
+var sim = { started: false, timer: null, scramble: null, distract: [], scores: { e1a:0, e1b:0, e2a:0, e2b:0, e3a:0, e3b:0 }, times: { e3a: null, e3b: null }, e3start: 0 };
+/* Épreuve 3 : barème pondéré par le temps — une bonne réponse lente est
+   aussi un désavantage (c'est ce que compense le tiers-temps) */
+var E3_LIMIT = 40, E3_FAST = 20;
+
+function simCleanup() {
+  if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
+  if (sim.scramble) { clearInterval(sim.scramble); sim.scramble = null; }
+  sim.distract.forEach(function(id) { clearInterval(id); clearTimeout(id); });
+  sim.distract = [];
+  document.querySelectorAll('.toast-notif, .fly').forEach(function(e) { e.remove(); });
+}
+
+function startTimer(secs, onEnd) {
+  var left = secs;
+  renderTimer(left, secs);
+  sim.timer = setInterval(function() {
+    left--;
+    renderTimer(left, secs);
+    if (left <= 0) { clearInterval(sim.timer); sim.timer = null; onEnd(); }
+  }, 1000);
+}
+function renderTimer(left, total) {
+  var n = $('timer-n'), f = $('timer-fill');
+  if (n) n.textContent = left;
+  if (f) f.style.width = (100 * left / total) + '%';
+}
+function timerHTML() {
+  return '<div class="sim-timer-row"><div class="sim-timer-n" id="timer-n"></div>' +
+         '<div class="sim-timer-bar"><div class="sim-timer-fill" id="timer-fill" style="width:100%"></div></div></div>';
+}
+
+/* Trouble simulé : permutation de lettres intérieures — paramètres IDENTIQUES
+   dans les deux versions (45 % des mots, tick 170 ms). L'aménagement change le
+   support, pas le trouble. */
+var SCRAMBLE_RATE = 0.45, SCRAMBLE_TICK = 170;
+function scrambleWord(w) {
+  if (w.length > 4 && Math.random() < SCRAMBLE_RATE) {
+    var chars = w.split('');
+    var i = 1 + Math.floor(Math.random() * (chars.length - 3));
+    var j = 1 + Math.floor(Math.random() * (chars.length - 3));
+    var t = chars[i]; chars[i] = chars[j]; chars[j] = t;
+    return chars.join('');
+  }
+  return w;
+}
+/* Monte un texte scrambleable dans `box` : un élément par mot (mots-clés
+   marqués *ainsi* → <b>), puis mise à jour des textContent à chaque tick.
+   Utilisé par TOUTES les versions (hostiles et aménagées) : le trouble est
+   identique partout, seul le support change. */
+function mountScramble(box, lines, itemTag) {
+  var wordNodes = [];
+  lines.forEach(function(line) {
+    var item = document.createElement(itemTag);
+    line.split(' ').forEach(function(tok, k) {
+      if (k > 0) item.appendChild(document.createTextNode(' '));
+      var bold = tok.indexOf('*') !== -1;
+      var core = bold ? tok.replace(/\*/g, '') : tok;
+      var el = document.createElement(bold ? 'b' : 'span');
+      el.textContent = core;
+      item.appendChild(el);
+      wordNodes.push({ el: el, core: core });
+    });
+    box.appendChild(item);
+  });
+  function tick() { wordNodes.forEach(function(n) { n.el.textContent = scrambleWord(n.core); }); }
+  tick();
+  sim.scramble = setInterval(tick, SCRAMBLE_TICK);
+}
+
+/* ── Épreuve 1 : textes & questions ── */
+var E1A = {
+  text: "Le hérisson d'Europe passe l'hiver en hibernation. Dès le mois de novembre, il s'installe dans un nid de feuilles mortes, sous une haie ou un tas de bois. Sa température corporelle descend alors de trente-cinq à cinq degrés. Il se réveille parfois pour boire, puis se rendort aussitôt. Au printemps, il aura perdu près d'un tiers de son poids.",
+  qs: [
+    { q: "Où le hérisson s'installe-t-il pour l'hiver ?", opts: ["Dans un terrier profond", "Dans un nid de feuilles mortes", "Dans le creux d'un arbre"], ok: 1 },
+    { q: "Quelle part de son poids perd-il pendant l'hiver ?", opts: ["La moitié", "Un quart", "Près d'un tiers"], ok: 2 }
+  ]
+};
+var E1B = {
+  lines: ["La chouette effraie chasse *la* *nuit*.",
+          "Elle repère les souris *à* *l'oreille*, même dans le noir complet.",
+          "Son vol est *silencieux* grâce à ses plumes dentelées.",
+          "Elle avale ses proies *entières*.",
+          "Elle rejette ensuite les poils et les os sous forme de *pelotes*."],
+  qs: [
+    { q: "Comment la chouette repère-t-elle les souris ?", opts: ["À la vue", "À l'oreille", "À l'odorat"], ok: 1 },
+    { q: "Que contiennent les pelotes qu'elle rejette ?", opts: ["Des poils et des os", "Des plumes", "Des graines"], ok: 0 }
+  ]
+};
+/* ── Épreuve 2 ── */
+var E2A = {
+  text: "Avant de commencer l'exercice de la page 47, vous prendrez soin, après avoir souligné la date en rouge et tracé une marge de trois carreaux, de recopier uniquement les phrases impaires de l'encadré, sauf si elles contiennent un verbe à l'infinitif, auquel cas vous les transformerez au passé composé avant de les recopier, le tout au crayon, puisque la correction se fera collectivement et que seuls les exercices terminés avant la sonnerie seront ramassés, les autres étant à terminer pour jeudi.",
+  qs: [
+    { q: "En quelle couleur fallait-il souligner la date ?", opts: ["En vert", "En rouge", "En bleu"], ok: 1 },
+    { q: "Quelles phrases fallait-il recopier ?", opts: ["Les phrases paires", "Toutes les phrases", "Les phrases impaires"], ok: 2 },
+    { q: "Avec quel outil fallait-il écrire ?", opts: ["Au crayon", "Au stylo bleu", "Au choix"], ok: 0 }
+  ]
+};
+var E2B = {
+  steps: ["*Prends* ton cahier vert.", "*Écris* la date au stylo noir.", "*Souligne*-la à la règle.", "*Recopie* les 3 premières phrases de l'encadré.", "*Entoure* les verbes en bleu.", "*Lève* la main quand tu as fini."],
+  qs: [
+    { q: "Quel cahier fallait-il prendre ?", opts: ["Le vert", "Le rouge", "Le bleu"], ok: 0 },
+    { q: "Combien de phrases fallait-il recopier ?", opts: ["Cinq", "Trois", "Toutes"], ok: 1 },
+    { q: "En quelle couleur fallait-il entourer les verbes ?", opts: ["En noir", "En rouge", "En bleu"], ok: 2 }
+  ]
+};
+/* ── Épreuve 3 ── */
+var E3A = { steps: "Calcule : 7 + 8, puis retire 3, puis double le résultat, puis ajoute 6.", answer: 30 };
+var E3B = { steps: ["<b>Calcule</b> : 9 + 6", "<b>Retire</b> 4", "<b>Double</b> le résultat", "<b>Ajoute</b> 2"], answer: 24 };
+
+function simGo(screen) {
+  simCleanup();
+  sim.started = true;
+  var s = $('sim-stage');
+  window.scrollTo(0, 0);
+
+  /* ── INTRO ── */
+  if (screen === 'intro') {
+    sim.scores = { e1a:0, e1b:0, e2a:0, e2b:0, e3a:0, e3b:0 };
+    sim.times = { e3a: null, e3b: null };
+    s.innerHTML =
+      '<div class="prose"><p>Vous allez vivre <strong>trois épreuves courtes</strong>, deux fois chacune : d\'abord <strong>sans</strong> aménagement, puis <strong>avec</strong>. Vos scores sont comparés à la fin.</p>' +
+      '<p>Épreuves 1 et 2 : vous êtes un élève avec un trouble de la lecture — il vous suit dans <strong>les deux</strong> versions, à l\'identique. L\'aménagement ne touche jamais au trouble, seulement au support. Épreuve 3 : vous changez de peau et devenez un élève TDAH.</p></div>' +
+      '<div class="warn-box"><div class="box-label">Avant de commencer</div><div class="box-content">Ces simulations ne prétendent pas reproduire le vécu réel d\'un élève dyslexique ou TDAH. Elles font ressentir l\'<em>effort supplémentaire</em> imposé par un support inadapté — effort que la recherche documente et que les aménagements réduisent.</div></div>' +
+      '<div class="danger-box"><div class="box-label">Une dernière chose</div><div class="box-content">Vous y passerez 10 minutes. Certains de vos élèves y passent 28 heures par semaine.</div></div>' +
+      '<button class="btn-next" onclick="simGo(\'e1a\')">Commencer l\'épreuve 1 →</button>';
+  }
+
+  /* ── E1 SANS ── */
+  else if (screen === 'e1a') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 1 · Lire — sans aménagement</div>' +
+      '<div class="prose"><p>Lisez ce texte. Vous avez 35 secondes. Deux questions suivront.</p></div>' +
+      timerHTML() +
+      '<div class="read-hostile" id="scramble-box"></div>' +
+      '<button class="btn-prev" onclick="simGo(\'e1aq\')">J\'ai fini de lire</button>';
+    mountScramble($('scramble-box'), [E1A.text], 'p');
+    startTimer(35, function() { simGo('e1aq'); });
+  }
+  else if (screen === 'e1aq') { askQs(E1A.qs, 'e1a', 'e1b', 'Épreuve 1 · Questions (texte sans aménagement)'); }
+
+  /* ── E1 AVEC ── */
+  else if (screen === 'e1b') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 1 · Lire — avec aménagements</div>' +
+      '<div class="prose"><p>Nouveau texte, même difficulté, mêmes 35 secondes. <strong>Les lettres bougent toujours, exactement au même rythme</strong> : le trouble ne disparaît pas. Ce qui change, c\'est le support : Arial 18, interligne 1,8, une idée par ligne, mots-clés en gras.</p></div>' +
+      timerHTML() +
+      '<div class="read-au" id="scramble-box-au"></div>' +
+      '<button class="btn-prev" onclick="simGo(\'e1bq\')">J\'ai fini de lire</button>';
+    mountScramble($('scramble-box-au'), E1B.lines, 'p');
+    startTimer(35, function() { simGo('e1bq'); });
+  }
+  else if (screen === 'e1bq') { askQs(E1B.qs, 'e1b', 'e1r', 'Épreuve 1 · Questions (texte aménagé)'); }
+
+  /* ── E1 RÉSULTAT ── */
+  else if (screen === 'e1r') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 1 · Verdict</div>' +
+      duelHTML(sim.scores.e1a, sim.scores.e1b, 2) +
+      '<div class="ok-box"><div class="box-label">Ce que dit la recherche</div><div class="box-content">L\'espacement des lettres et des mots rend la lecture plus pratique et réduit l\'effet de désordre visuel (Lachgar, 2020 — corpus RISS dumas-03008164). Police agrandie et interligne 1,5 figurent parmi les adaptations documentées pour les élèves dyslexiques (Fauquembergue, 2016 — corpus RISS dumas-01491336).</div></div>' +
+      '<div class="prose"><p>Le trouble était <strong>identique</strong> dans les deux passages : mêmes permutations de lettres, même rythme. Le texte n\'était pas plus simple non plus. Seul le <strong>support</strong> a changé — c\'est exactement ce que fait un aménagement : il réduit l\'obstacle, il ne guérit pas le trouble. Et c\'est aussi pourquoi l\'aménagement de support ne remplace pas le tiers-temps : même aménagé, l\'effort de lecture reste supérieur.</p></div>' +
+      '<button class="btn-next" onclick="simGo(\'e2a\')">Épreuve 2 : la consigne →</button>';
+  }
+
+  /* ── E2 SANS ── */
+  else if (screen === 'e2a') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 2 · Comprendre une consigne — sans aménagement</div>' +
+      '<div class="prose"><p>Vous êtes toujours le même élève : les lettres bougent encore. Votre enseignant vous donne cette consigne. Vous avez 25 secondes pour la mémoriser. Trois questions suivront.</p></div>' +
+      timerHTML() +
+      '<div class="read-hostile" style="font-style:normal;" id="scramble-box-e2"></div>';
+    mountScramble($('scramble-box-e2'), [E2A.text], 'p');
+    startTimer(25, function() { simGo('e2aq'); });
+  }
+  else if (screen === 'e2aq') { askQs(E2A.qs, 'e2a', 'e2b', 'Épreuve 2 · Que deviez-vous faire ?'); }
+
+  /* ── E2 AVEC ── */
+  else if (screen === 'e2b') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 2 · Comprendre une consigne — avec aménagements</div>' +
+      '<div class="prose"><p>Autre consigne, mêmes 25 secondes, et <strong>le trouble est toujours là — mêmes permutations, même rythme</strong>. Ce qui change : une action par ligne, verbe en premier, numérotée.</p></div>' +
+      timerHTML() +
+      '<div class="read-au"><ol class="steps-au" id="scramble-box-e2au"></ol></div>';
+    mountScramble($('scramble-box-e2au'), E2B.steps, 'li');
+    startTimer(25, function() { simGo('e2bq'); });
+  }
+  else if (screen === 'e2bq') { askQs(E2B.qs, 'e2b', 'e2r', 'Épreuve 2 · Que deviez-vous faire ?'); }
+
+  /* ── E2 RÉSULTAT ── */
+  else if (screen === 'e2r') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 2 · Verdict</div>' +
+      duelHTML(sim.scores.e2a, sim.scores.e2b, 3) +
+      '<div class="ok-box"><div class="box-label">Ce que dit la recherche</div><div class="box-content">Les ressources cognitives de l\'apprenant sont limitées : tout ce que la mémoire de travail dépense à <em>décoder</em> la consigne n\'est plus disponible pour <em>faire</em> la tâche (Puma, 2016 — corpus RISS tel-01735371). La lecture de consignes est précisément un terrain d\'application documenté de la CUA (Anné, 2021 — corpus RISS dumas-03361167).</div></div>' +
+      '<div class="prose"><p>Le trouble était identique des deux côtés — mêmes permutations, même rythme. La première consigne contenait 6 informations enchâssées dans une seule phrase de 88 mots ; la seconde : 6 informations, 6 lignes. Même trouble, même charge utile — seule la charge <strong>inutile</strong> a été supprimée.</p></div>' +
+      '<button class="btn-next" onclick="simGo(\'e3a\')">Épreuve 3 : la concentration →</button>';
+  }
+
+  /* ── E3 SANS ── */
+  else if (screen === 'e3a') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 3 · Calculer — sans aménagement</div>' +
+      '<div class="prose"><p>Un calcul en chaîne, 40 secondes — et cette fois <strong>votre temps compte</strong> : bonne réponse en moins de ' + E3_FAST + ' s = 2 points, dans les ' + E3_LIMIT + ' s = 1 point. Comme sur une vraie copie : juste mais trop tard, c\'est pénalisé. Concentrez-vous. <em>Vraiment.</em></p></div>' +
+      timerHTML() +
+      '<div class="read-hostile" style="font-style:normal;font-size:16px;" id="e3-box">' + E3A.steps +
+      '<br><br><input type="number" class="num-input" id="e3a-input" placeholder="?"> ' +
+      '<button class="btn-next" onclick="checkE3(\'e3a\')">Valider</button>' +
+      '<br><button class="blink-btn" onclick="this.textContent=\'Eh non, rien du tout. Reconcentrez-vous !\'">⭐ CLIQUEZ ICI ⭐</button></div>';
+    sim.e3start = Date.now();
+    startTimer(E3_LIMIT, function() { checkE3('e3a'); });
+    launchDistractors();
+  }
+
+  /* ── E3 AVEC ── */
+  else if (screen === 'e3b') {
+    s.innerHTML =
+      '<div class="section-h">Épreuve 3 · Calculer — avec aménagements</div>' +
+      '<div class="prose"><p>Même type de calcul, même barème au chrono. Environnement calme, étapes visibles une par une.</p></div>' +
+      timerHTML() +
+      '<div class="read-au"><ol class="steps-au">' + E3B.steps.map(function(st) { return '<li>' + st + '</li>'; }).join('') + '</ol>' +
+      '<input type="number" class="num-input" id="e3b-input" placeholder="?"> ' +
+      '<button class="btn-next" onclick="checkE3(\'e3b\')">Valider</button></div>';
+    sim.e3start = Date.now();
+    startTimer(E3_LIMIT, function() { checkE3('e3b'); });
+  }
+
+  /* ── FINAL ── */
+  else if (screen === 'final') {
+    var MAX = 7; /* e1 /2 + e2 /3 + e3 /2 (pondérée par le temps) */
+    var sans = sim.scores.e1a + sim.scores.e2a + sim.scores.e3a;
+    var avec = sim.scores.e1b + sim.scores.e2b + sim.scores.e3b;
+    var pSans = Math.round(100 * sans / MAX), pAvec = Math.round(100 * avec / MAX);
+    function tLabel(key) {
+      return sim.times[key] !== null ? 'bonne réponse en ' + sim.times[key] + ' s' : 'pas de bonne réponse';
+    }
+    s.innerHTML =
+      '<div class="section-h">Vos résultats : la même personne, deux environnements</div>' +
+      '<div style="margin:1.5rem 0;">' +
+      '<div class="bar-row"><div class="bar-lbl">Sans aménagement</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.max(pSans, 8) + '%;background:var(--red-mid);">' + sans + '/' + MAX + '</div></div></div>' +
+      '<div class="bar-row"><div class="bar-lbl">Avec aménagements</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.max(pAvec, 8) + '%;background:var(--green-mid);">' + avec + '/' + MAX + '</div></div></div>' +
+      '</div>' +
+      '<div class="prose"><p style="font-size:14px;color:var(--muted);">⏱ Épreuve 3 au chrono : ' + tLabel('e3a') + ' sans aménagement · ' + tLabel('e3b') + ' avec aménagements.</p></div>' +
+      '<div class="warn-box"><div class="box-label">Le temps fait partie du résultat</div><div class="box-content">Sur une vraie copie, la bonne réponse arrivée après la sonnerie est comptée fausse. Répondre juste mais lentement, parce que chaque distraction coûte une re-concentration, est un désavantage invisible dans les notes — c\'est précisément ce que compense le tiers-temps.</div></div>' +
+      '<div class="prose"><p><strong>Votre intelligence n\'a pas changé entre les deux passages.</strong> Ni la vôtre, ni celle de vos élèves. Ce qui change les résultats, c\'est l\'environnement de travail — et l\'environnement, c\'est nous qui le concevons.</p></div>' +
+      (avec <= sans && sans > 0 ?
+        '<div class="box"><div class="box-label">Vos scores sont proches ?</div><div class="box-content">Logique : vous êtes un lecteur expert, sans trouble d\'apprentissage, qui savait que c\'était un jeu. Vos élèves dys vivent la colonne rouge sans la colonne verte — et sans pouvoir quitter la partie. L\'effort que vous avez senti, eux le paient toute la journée.</div></div>' : '') +
+      '<div class="ok-box"><div class="box-label">Ce que dit la recherche</div><div class="box-content">Les aménagements spécifiques ont un effet significatif sur l\'attention des élèves TDAH en classe (Bourgeois, 2024 — corpus RISS dumas-04903104). Une pédagogie accessible, proposant différentes entrées et différents outils, favorise les apprentissages de tous (Perrin-Glorieux, Jury &amp; Desombre, 2024 — corpus RISS hal-04795020).</div></div>' +
+      '<div class="danger-box"><div class="box-label">À retenir</div><div class="box-content">Vous venez de vivre 10 minutes d\'obstacles évitables. Un élève dys, c\'est 28 heures par semaine, 36 semaines par an. L\'aménagement n\'est pas un privilège : c\'est l\'arrêt d\'un handicap que l\'école fabrique elle-même.</div></div>' +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
+      '<button class="btn-next" onclick="showPage(\'myths\')">Affronter la salle des profs →</button>' +
+      '<button class="btn-prev" onclick="simGo(\'intro\')">↺ Recommencer l\'expérience</button></div>';
+  }
+}
+
+/* QCM : pose les questions une par une, stocke le score, enchaîne */
+function askQs(qs, scoreKey, nextScreen, title) {
+  var i = 0;
+  sim.scores[scoreKey] = 0;
+  function renderQ() {
+    var q = qs[i];
+    var s = $('sim-stage');
+    s.innerHTML =
+      '<div class="section-h">' + title + ' (' + (i + 1) + '/' + qs.length + ')</div>' +
+      '<div class="qcm-q">' + q.q + '</div>' +
+      '<div class="qcm-opts">' + q.opts.map(function(o, k) {
+        return '<button class="qcm-opt" data-k="' + k + '">' + o + '</button>';
+      }).join('') + '</div>';
+    s.querySelectorAll('.qcm-opt').forEach(function(btn) {
+      btn.onclick = function() {
+        var k = parseInt(btn.dataset.k);
+        s.querySelectorAll('.qcm-opt').forEach(function(b) { b.disabled = true; });
+        if (k === q.ok) { btn.classList.add('good'); sim.scores[scoreKey]++; }
+        else { btn.classList.add('bad'); s.querySelector('[data-k="' + q.ok + '"]').classList.add('good'); }
+        setTimeout(function() {
+          i++;
+          if (i < qs.length) renderQ(); else simGo(nextScreen);
+        }, 900);
+      };
+    });
+  }
+  renderQ();
+}
+
+function checkE3(key) {
+  if (sim.timer) { clearInterval(sim.timer); sim.timer = null; }
+  var elapsed = Math.min(E3_LIMIT, Math.round((Date.now() - sim.e3start) / 1000));
+  var inp = $(key + '-input');
+  var val = inp ? parseInt(inp.value) : NaN;
+  var ok = (key === 'e3a') ? (val === E3A.answer) : (val === E3B.answer);
+  /* pondération : juste ET rapide = 2, juste mais lent = 1, faux = 0 */
+  sim.scores[key] = ok ? (elapsed <= E3_FAST ? 2 : 1) : 0;
+  sim.times[key] = ok ? elapsed : null;
+  if (key === 'e3a') { simCleanup(); simGo('e3b'); } else { simGo('final'); }
+}
+
+/* Distracteurs épreuve 3 */
+var NOTIFS = [
+  "📱 Maman : Tu rentres à quelle heure ??",
+  "🔔 23 nouveaux messages dans le groupe classe",
+  "💬 Léa : t'as vu la story de Max 😂😂",
+  "⚠️ Batterie faible — 10 % restants",
+  "🎮 Ton village a été attaqué !",
+  "📢 Rappel : interro de math demain"
+];
+function launchDistractors() {
+  var ni = 0;
+  /* notifications toast */
+  var notifId = setInterval(function() {
+    var t = document.createElement('div');
+    t.className = 'toast-notif';
+    t.textContent = NOTIFS[ni % NOTIFS.length];
+    t.style.top = (70 + (ni % 4) * 64) + 'px';
+    document.body.appendChild(t);
+    setTimeout(function() { t.remove(); }, 2600);
+    ni++;
+  }, 2800);
+  sim.distract.push(notifId);
+  /* mouche baladeuse */
+  var fly = document.createElement('div');
+  fly.className = 'fly';
+  fly.textContent = '🪰';
+  fly.style.top = '40%'; fly.style.left = '10%';
+  document.body.appendChild(fly);
+  var flyId = setInterval(function() {
+    fly.style.top = (15 + Math.random() * 65) + '%';
+    fly.style.left = (5 + Math.random() * 85) + '%';
+  }, 1400);
+  sim.distract.push(flyId);
+  /* secousses du cadre */
+  var shakeId = setInterval(function() {
+    var box = $('e3-box');
+    if (box) { box.classList.add('shaking'); setTimeout(function() { box.classList.remove('shaking'); }, 600); }
+  }, 5000);
+  sim.distract.push(shakeId);
+}
+
+function duelHTML(sans, avec, max) {
+  return '<div class="score-duel">' +
+    '<div class="score-cell score-cell-sans"><div class="lbl">Sans aménagement</div><div class="val">' + sans + '/' + max + '</div></div>' +
+    '<div class="score-cell score-cell-avec"><div class="lbl">Avec aménagements</div><div class="val">' + avec + '/' + max + '</div></div></div>';
+}
+
+/* ───────────────────────── Jeu des objections ───────────────────────── */
+var MYTHS = [
+  {
+    obj: "« Donner un tiers-temps à Noa, c'est de la triche. Les autres n'ont qu'à travailler. »",
+    who: "Un collègue, lundi 8h12, devant la machine à café",
+    opts: [
+      { t: "« Tu dis ça parce que tu n'as jamais eu d'élève dys dans ta classe. »", pts: 0, fb: "Attaque personnelle. Le collègue se braque, le fond n'avance pas — et la machine à café devient un champ de bataille." },
+      { t: "« Retirerais-tu ses lunettes à un élève myope pendant une éval de géographie ? Le tiers-temps compense un obstacle, il ne donne pas la réponse. »", pts: 3, fb: "L'analogie déplace le débat : de la « faveur » vers la compensation. Traiter différemment pour évaluer la même chose, c'est l'équité." },
+      { t: "« C'est la loi, on n'a pas le choix. »", pts: 1, fb: "Exact (décret FWB du 7/12/2017), mais l'argument d'autorité convainc rarement en profondeur. Il ferme la conversation au lieu de changer le regard." }
+    ],
+    riss: "L'inclusion relève d'un principe d'équité bien plus que d'égalité de traitement : il faut s'adapter aux besoins (Giaoui, 2022 — corpus RISS dumas-03687630)."
+  },
+  {
+    obj: "« C'est injuste pour les autres élèves de la classe. Eux n'ont droit à rien. »",
+    who: "Une collègue, réunion de cycle, jeudi 15h40",
+    opts: [
+      { t: "« Les recherches sur la perception des pairs montrent que les élèves — surtout les plus fragiles — se réfèrent eux-mêmes au principe d'équité : plus d'attention à ceux qui en ont besoin. Les enfants comprennent ça mieux que nous. »", pts: 3, fb: "Le point décisif : l'« injustice » ressentie est surtout une projection d'adulte. Et un support pensé pour l'élève dys est plus lisible pour toute la classe." },
+      { t: "« La vie est injuste, il faut s'y faire. »", pts: 0, fb: "Cynisme décoratif. Aucun regard ne change, et l'argument peut se retourner contre n'importe quelle pratique pédagogique." },
+      { t: "« Les autres n'en ont pas besoin, c'est tout. »", pts: 1, fb: "Vrai mais sec. Sans l'argument du bénéfice collectif, le sentiment d'injustice reste intact." }
+    ],
+    riss: "Perception de la différenciation par les pairs : les élèves jugés plus faibles privilégient « plus d'attention aux élèves les plus faibles », au nom de l'équité (Feuilladieu, Gombert &amp; Harma, 2009 — corpus RISS hal-01779402). Une pédagogie accessible profite à tous (Perrin-Glorieux et al., 2024 — corpus RISS hal-04795020)."
+  },
+  {
+    obj: "« Je n'ai pas le temps de préparer 24 versions différentes de chaque cours. »",
+    who: "Un collègue débordé, vendredi 16h55, photocopieuse en panne",
+    opts: [
+      { t: "« Personne ne te demande 24 versions. C'est exactement l'inverse : UNE version conçue accessible dès le départ — Arial 12, une action par ligne — remplace les rustines individuelles que tu bricoles déjà après coup. »", pts: 3, fb: "C'est le renversement central de la CUA : concevoir accessible en amont coûte moins cher que réparer en aval. L'aménagement universel est un gain de temps, pas une charge." },
+      { t: "« Il faut savoir ce qu'on veut dans la vie. »", pts: 0, fb: "Moralisation. Le collègue débordé avait besoin d'une solution, pas d'un sermon." },
+      { t: "« Commence par un seul aménagement, tu verras. »", pts: 1, fb: "Bon réflexe pragmatique, mais sans expliquer la logique « un support pour tous », l'idée des 24 versions reste dans sa tête." }
+    ],
+    riss: "La CUA répond de manière proactive — et non corrective — aux défis de l'inclusion (Rusconi, 2025 — corpus RISS W4414205903). Application documentée à la lecture de consignes (Anné, 2021 — corpus RISS dumas-03361167)."
+  },
+  {
+    obj: "« Tout ça nivelle par le bas. On baisse les exigences et tout le monde fait semblant. »",
+    who: "Un collègue, conseil de classe, mardi 17h20",
+    opts: [
+      { t: "« On ne touche pas aux exigences, on touche aux obstacles. Le programme reste le même : on change la forme du support pour que l'élève puisse montrer ce qu'il sait — au lieu de mesurer sa capacité à déchiffrer du 11 points justifié. »", pts: 3, fb: "La distinction forme/exigence est LA clé. Une évaluation qui mesure la mise en page plutôt que la compétence visée est simplement… une mauvaise mesure." },
+      { t: "« Et toi, tu niveau par le haut peut-être ? »", pts: 0, fb: "Pique gratuite. Match nul, vestiaires glacials." },
+      { t: "« Les aménagements sont encadrés : objectifs co-construits, suivi documenté. Rien n'est bradé. »", pts: 1, fb: "Argument valable sur le cadre, mais il ne désamorce pas l'intuition « adapté = plus facile ». Il manque la distinction forme/exigence." }
+    ],
+    riss: "Les dispositifs structurés d'aménagements raisonnables incluent co-construction d'objectifs avec l'élève et la famille, planification et suivi périodique documenté (Latini et al., 2025 — corpus RISS W4413909670). Sur les modèles de justice en évaluation : Lafontaine &amp; Toczek-Capelle, 2023 — corpus RISS hal-04646875."
+  },
+  {
+    obj: "« Dans la vraie vie, personne ne les aménagera, vos élèves. Autant les habituer tout de suite. »",
+    who: "Un collègue proche de la retraite, salle des profs, vendredi midi",
+    opts: [
+      { t: "« La vraie vie EST aménagée : tu portes des lunettes, tu suis un GPS, ton téléphone corrige tes fautes et ton agenda sonne avant chaque réunion. L'autonomie, c'est apprendre à utiliser ses outils — pas s'en priver pour s'endurcir. »", pts: 3, fb: "Imparable, parce que vérifiable sur la personne même qui objecte. L'adulte autonome est un adulte outillé ; priver l'élève d'outils ne le prépare pas, il l'épuise." },
+      { t: "« La retraite approche, hein ? »", pts: 0, fb: "Disqualification par l'âge. Indéfendable — et l'objection, elle, reste sans réponse pour les jeunes collègues qui écoutaient." },
+      { t: "« Ils ont un diagnostic, c'est leur droit. »", pts: 1, fb: "Le droit est réel, mais répondre « droit » à un argument « autonomie » ne convainc personne : les deux ne se croisent pas." }
+    ],
+    riss: "Les aménagements de lecture pour élèves dyslexiques relèvent de la compensation d'un trouble durable, pas d'une béquille provisoire (Vienet, 2023 — corpus RISS dumas-04350539)."
+  }
+];
+var mythState = { i: -1, score: 0 };
+
+function mythIntro() {
+  mythState = { i: -1, score: 0 };
+  $('myth-stage').innerHTML =
+    '<div class="prose"><p>Cinq objections réelles, trois répliques possibles à chaque fois. Choisissez la vôtre : certaines marquent 3 points, d\'autres 1, d\'autres 0 — et la recherche tranche à chaque tour.</p></div>' +
+    '<button class="btn-next" onclick="mythNext()">Entrer dans la salle des profs →</button>';
+}
+function mythNext() {
+  mythState.i++;
+  if (mythState.i >= MYTHS.length) { mythEnd(); return; }
+  var m = MYTHS[mythState.i];
+  $('myth-stage').innerHTML =
+    '<div class="myth-progress">Objection ' + (mythState.i + 1) + ' / ' + MYTHS.length + ' · Score : ' + mythState.score + ' pts</div>' +
+    '<div class="myth-quote">' + m.obj + '</div>' +
+    '<div class="myth-who">— ' + m.who + '</div>' +
+    '<div class="qcm-opts">' + m.opts.map(function(o, k) {
+      return '<button class="reply-opt" data-k="' + k + '">' + o.t + '</button>';
+    }).join('') + '</div>';
+  document.querySelectorAll('.reply-opt').forEach(function(btn) {
+    btn.onclick = function() { mythReveal(parseInt(btn.dataset.k)); };
+  });
+  window.scrollTo(0, 0);
+}
+function mythReveal(k) {
+  var m = MYTHS[mythState.i];
+  var o = m.opts[k];
+  mythState.score += o.pts;
+  var badge = o.pts === 3 ? '<span class="pts-badge" style="background:var(--green-bg);color:var(--green-text)">+3 points · La réplique qui change le regard</span>'
+            : o.pts === 1 ? '<span class="pts-badge" style="background:var(--amber-bg);color:var(--amber-text)">+1 point · Pas faux, pas décisif</span>'
+            : '<span class="pts-badge" style="background:var(--red-bg);color:var(--red-text)">0 point · Aïe</span>';
+  var best = m.opts.filter(function(x) { return x.pts === 3; })[0];
+  $('myth-stage').innerHTML =
+    '<div class="myth-progress">Objection ' + (mythState.i + 1) + ' / ' + MYTHS.length + '</div>' +
+    '<div class="myth-quote">' + m.obj + '</div>' +
+    '<div style="margin:1rem 0;">' + badge + '</div>' +
+    '<div class="prose"><p><strong>Votre choix :</strong> ' + o.t + '</p><p>' + o.fb + '</p></div>' +
+    (o.pts < 3 ? '<div class="box"><div class="box-label">La réplique à 3 points</div><div class="box-content">' + best.t + '</div></div>' : '') +
+    '<div class="ok-box"><div class="box-label">L\'arbitrage de la recherche</div><div class="box-content">' + m.riss + '</div></div>' +
+    '<button class="btn-next" onclick="mythNext()">' + (mythState.i + 1 < MYTHS.length ? 'Objection suivante →' : 'Voir mon score →') + '</button>';
+  window.scrollTo(0, 0);
+}
+function mythEnd() {
+  var sc = mythState.score;
+  var titre, comment;
+  if (sc >= 13) { titre = "🏆 Voix de la salle des profs"; comment = "Vos collègues vont commencer à préparer leurs objections la veille. La recherche est de votre côté — et maintenant, votre répartie aussi."; }
+  else if (sc >= 8) { titre = "💪 Allié·e solide"; comment = "Vous tenez la ligne sur le fond. Encore un cran de précision dans les analogies et plus personne ne sortira « c'est de la triche » en votre présence."; }
+  else { titre = "🌱 En construction"; comment = "Le réflexe légal ou défensif domine encore. Refaites un tour : les répliques à 3 points partagent toutes la même mécanique — déplacer le débat de la faveur vers l'obstacle."; }
+  $('myth-stage').innerHTML =
+    '<div class="section-h">Votre indice de répartie inclusive</div>' +
+    '<div class="score-duel"><div class="score-cell score-cell-avec" style="grid-column:1/-1;"><div class="lbl">Score final</div><div class="val">' + sc + ' / 15</div><div style="font-size:17px;margin-top:6px;">' + titre + '</div></div></div>' +
+    '<div class="prose"><p>' + comment + '</p></div>' +
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
+    '<button class="btn-next" onclick="showPage(\'tri\')">Au tri : AU ou AR ? →</button>' +
+    '<button class="btn-prev" onclick="mythIntro()">↺ Rejouer</button></div>';
+}
+
+/* ───────────────────────── Tri AU / AR ───────────────────────── */
+var TRI = [
+  { txt: "Toutes les feuilles distribuées à la classe sont en Arial 12, interligne 1,5.", type: "AU", why: "Toute la classe en bénéficie d'office, sans diagnostic : c'est la définition de l'universel. Et l'espacement réduit l'effet de désordre visuel pour tous (corpus RISS : Lachgar 2020)." },
+  { txt: "Noa dispose d'un tiers de temps supplémentaire pour les évaluations.", type: "AR", why: "Mesure individuelle, liée au besoin attesté d'un élève précis : raisonnable, encadrée par le décret FWB du 7/12/2017." },
+  { txt: "Le plan de la leçon est affiché au tableau et coché au fur et à mesure, pour tout le monde.", type: "AU", why: "Structuration offerte à toute la classe. La structuration du temps et des tâches soutient l'attention de tous — TDAH compris (corpus RISS : Bourgeois 2024)." },
+  { txt: "Lina rédige ses contrôles sur un ordinateur avec correcteur orthographique.", type: "AR", why: "Outil de compensation individuel pour un trouble spécifique : raisonnable." },
+  { txt: "Chaque consigne est donnée à l'oral ET à l'écrit, pour toute la classe.", type: "AU", why: "Double modalité systématique : principe CUA, offert à tous a priori (corpus RISS : Rusconi 2025)." },
+  { txt: "Sami peut sortir deux minutes se recentrer grâce à une carte « pause » convenue.", type: "AR", why: "Dispositif individuel négocié pour un élève précis : raisonnable." },
+  { txt: "Un exemple entièrement résolu est montré avant chaque série d'exercices.", type: "AU", why: "Pratique pour toute la classe qui réduit la charge cognitive inutile de chacun (corpus RISS : Puma 2016)." },
+  { txt: "Les dictées d'Émile ne sont cotées que sur les trois types d'erreurs travaillés avec la logopède.", type: "AR", why: "Évaluation individualisée liée à un suivi spécifique : raisonnable — objectifs ciblés et suivi documenté (corpus RISS : Latini et al. 2025)." },
+  { txt: "Les consignes écrites de tous les documents suivent la règle « une action par ligne ».", type: "AU", why: "Conception du support pour tous, en amont : universel (corpus RISS : Anné 2021)." },
+  { txt: "Mia reçoit les notes de cours photocopiées d'un « secrétaire de séance ».", type: "AR", why: "Compensation individuelle d'une difficulté attestée de prise de notes : raisonnable." },
+  { txt: "Après le diagnostic de Lucas, l'enseignant réécrit désormais toutes ses feuilles de cours en Arial 12, interligne 1,5.", type: "AU", why: "Le déclencheur est individuel, mais la mesure devient universelle au moment où elle est offerte à tous sans condition d'accès. Ce qui définit l'AU, c'est l'absence de condition — pas l'origine de l'idée, ni la présence d'un prénom dans l'histoire." },
+  { txt: "Chaque élève reçoit, sans le demander, le plan de la leçon imprimé en plus de l'affichage au tableau.", type: "AU", why: "« Chaque élève » ne veut pas dire individualisé : c'est offert à tous d'office, sans preuve de besoin. La formulation semble cibler une personne à la fois, mais l'accès est universel." },
+  { txt: "Les élèves suivis par la logopède bénéficient d'un tiers-temps aux évaluations, sur présentation d'une attestation.", type: "AR", why: "Formulé au pluriel et sans prénom, mais l'accès reste conditionné à une attestation individuelle : ce n'est pas offert d'office à toute la classe. Le critère décisif est la condition d'accès, pas le nombre de bénéficiaires ni la présence d'un nom." },
+  { txt: "Sur avis du centre PMS, l'élève concerné passe son évaluation orale dans un local séparé avec l'enseignant.", type: "AR", why: "Mesure déclenchée par un avis individuel : réponse à un besoin attesté, donc raisonnable — même sans prénom cité dans l'énoncé." },
+  { txt: "Pour éviter de cibler qui que ce soit, l'enseignant enregistre l'audio de toutes les consignes et le met à disposition de qui veut l'écouter.", type: "AU", why: "Aucune condition d'accès, aucun prénom, offert par défaut à qui le souhaite : universel. Le motif (éviter de stigmatiser) ne change pas le type — seule l'absence de condition compte." }
+];
+var triState = { i: -1, score: 0, items: [] };
+
+function shuffleArr(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+function triIntro() {
+  triState = { i: -1, score: 0, items: shuffleArr(TRI) };
+  $('tri-stage').innerHTML =
+    '<div class="prose"><p>' + TRI.length + ' situations de classe, dans un ordre différent à chaque partie. À vous de trancher : <strong>Universel</strong> ou <strong>Raisonnable</strong> ?</p></div>' +
+    '<button class="btn-next" onclick="triNext()">Lancer le tri →</button>';
+}
+function triNext() {
+  triState.i++;
+  if (triState.i >= triState.items.length) { triEnd(); return; }
+  var item = triState.items[triState.i];
+  $('tri-stage').innerHTML =
+    '<div class="myth-progress">Situation ' + (triState.i + 1) + ' / ' + TRI.length + ' · Score : ' + triState.score + '</div>' +
+    '<div class="tri-item-card">' + item.txt + '</div>' +
+    '<div class="tri-btns">' +
+    '<button class="tri-btn tri-btn-au" onclick="triAnswer(\'AU\')">Aménagement Universel<span class="sub">toute la classe, d\'office</span></button>' +
+    '<button class="tri-btn tri-btn-ar" onclick="triAnswer(\'AR\')">Aménagement Raisonnable<span class="sub">un élève, un besoin attesté</span></button></div>';
+}
+function triAnswer(choice) {
+  var item = triState.items[triState.i];
+  var ok = choice === item.type;
+  if (ok) triState.score++;
+  $('tri-stage').innerHTML =
+    '<div class="myth-progress">Situation ' + (triState.i + 1) + ' / ' + TRI.length + '</div>' +
+    '<div class="tri-item-card">' + item.txt + '</div>' +
+    '<div class="' + (ok ? 'ok-box' : 'danger-box') + '"><div class="box-label">' + (ok ? '✓ Exact — c\'est un ' : '✗ C\'était un ') + (item.type === 'AU' ? 'Aménagement Universel' : 'Aménagement Raisonnable') + '</div><div class="box-content">' + item.why + '</div></div>' +
+    '<button class="btn-next" onclick="triNext()">' + (triState.i + 1 < TRI.length ? 'Situation suivante →' : 'Voir mon score →') + '</button>';
+}
+function triEnd() {
+  var sc = triState.score;
+  var pct = sc / TRI.length;
+  var msg = pct >= 0.9 ? "Distinction maîtrisée. Vous pouvez l'expliquer en réunion d'équipe demain matin."
+          : pct >= 0.6 ? "L'essentiel est en place. Repère utile : ce qui compte, c'est la condition d'accès — offert à tous sans preuve de besoin = AU ; conditionné à un besoin attesté = AR, prénom ou pas."
+          : "Les deux logiques se mélangent encore — refaites un tour, le repère vient vite : l'AU se décide en concevant le cours pour tous d'office, l'AR se décide en réponse à un besoin attesté, qu'il soit nommé ou non dans l'énoncé.";
+  $('tri-stage').innerHTML =
+    '<div class="section-h">Résultat du tri</div>' +
+    '<div class="score-duel"><div class="score-cell score-cell-avec" style="grid-column:1/-1;"><div class="lbl">Bonnes réponses</div><div class="val">' + sc + ' / ' + TRI.length + '</div></div></div>' +
+    '<div class="prose"><p>' + msg + '</p></div>' +
+    '<div class="box"><div class="box-label">Le duo gagnant</div><div class="box-content">Plus vos aménagements universels sont solides, moins il faut d\'aménagements raisonnables : un support conçu accessible dès le départ couvre déjà une grande partie des besoins (logique CUA — corpus RISS : Rusconi 2025 ; Anné 2021).</div></div>' +
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;">' +
+    '<button class="btn-next" onclick="showPage(\'pas\')">Mon premier pas →</button>' +
+    '<button class="btn-prev" onclick="triIntro()">↺ Rejouer</button></div>';
+}
+
+/* ───────────────────────── Carte d'engagement ───────────────────────── */
+var AU_CHOICES = [
+  { title: "Arial 12, interligne 1,5 sur toutes mes feuilles", riss: "Fauquembergue 2016 (dumas-01491336) ; Lachgar 2020 (dumas-03008164)" },
+  { title: "Une action par ligne dans toutes mes consignes", riss: "Anné 2021 (dumas-03361167)" },
+  { title: "Chaque consigne à l'oral ET à l'écrit", riss: "Rusconi 2025 (W4414205903)" },
+  { title: "Le plan du cours affiché et coché au fur et à mesure", riss: "Bourgeois 2024 (dumas-04903104)" },
+  { title: "Un exemple résolu avant chaque série d'exercices", riss: "Puma 2016 (tel-01735371)" }
+];
+function makeCard() {
+  var sel = document.querySelector('input[name="au-choice"]:checked');
+  var ctx = $('ctx-input').value.trim();
+  var err = $('pas-error');
+  if (!sel) { err.textContent = "Choisissez d'abord un aménagement (étape 1)."; return; }
+  if (ctx.length < 20) { err.textContent = "Décrivez votre contexte en quelques mots (étape 2, minimum 20 caractères) — c'est votre singularité qui rend l'engagement réel."; return; }
+  err.textContent = "";
+  var au = AU_CHOICES[parseInt(sel.value)];
+  var name = $('name-input').value.trim();
+  var today = new Date().toLocaleDateString('fr-BE', { day: 'numeric', month: 'long', year: 'numeric' });
+  $('pas-card').innerHTML =
+    '<div class="engage-card" id="print-card">' +
+    '<div class="ec-label">Carte d\'engagement · Aménagement Universel · PLAI</div>' +
+    '<div class="ec-title">Cette semaine, je teste :<br>' + au.title + '</div>' +
+    '<div class="ec-body">Dans toute ma classe, d\'office, sans condition de diagnostic. Pas pour « les dys » : pour tout le monde — c\'est précisément ce qui en fait un aménagement universel.</div>' +
+    '<div class="ec-ctx">« ' + ctx.replace(/</g, '&lt;').replace(/>/g, '&gt;') + ' »</div>' +
+    '<div class="ec-foot"><span>' + (name ? name + ' · ' : '') + today + '</span><span>Appui scientifique (corpus RISS) : ' + au.riss + '</span></div>' +
+    '</div>' +
+    '<div class="no-print" style="display:flex;gap:10px;flex-wrap:wrap;">' +
+    '<button class="btn-next" onclick="window.print()">🖨️ Imprimer ma carte</button>' +
+    '<button class="btn-prev" onclick="$(\'pas-card\').innerHTML=\'\';">Modifier</button></div>' +
+    '<div class="box no-print" style="margin-top:1.25rem;"><div class="box-label">Et dans une semaine ?</div><div class="box-content">Affichez la carte près de votre bureau. Vendredi prochain, posez-vous une seule question : « Qui en a profité ? » Si la réponse dépasse les élèves à besoins spécifiques, vous venez de vérifier la CUA en conditions réelles.</div></div>';
+  $('pas-card').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
